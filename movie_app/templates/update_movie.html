@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Update Movie {% endblock %}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center">
+    <form method="post" action="">
+      {{ form.hidden_tag() }}
+      <div class="mt-5 mb-3 form-group">
+          {{ form.name.label(class="form-label") }}
+          {{ form.name(disabled=True, class="form-control") }}
+      </div>
+      <div class="mb-3 form-group">
+          {{ form.year.label(class="form-label") }}
+          {% if form.year.errors %}
+            {{ form.year(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.year.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+          {% else %}
+            {{ form.year(class="form-control") }}
+          {% endif %}
+      </div>
+      <div class="mb-3 form-group">
+          {{ form.director.label(class="form-label") }}
+          {% if form.director.errors %}
+            {{ form.director(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.director.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+          {% else %}
+            {{ form.director(class="form-control") }}
+          {% endif %}
+      </div>
+      <div class="mb-3 form-group">
+          {{ form.rating.label(class="form-label") }}
+          {% if form.rating.errors %}
+            {{ form.rating(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.rating.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+          {% else %}
+            {{ form.rating(class="form-control") }}
+          {% endif %}
+      </div>
+      {{ form.submit(class="btn btn-primary") }}
+    </form>
+</div>
+{% endblock %}

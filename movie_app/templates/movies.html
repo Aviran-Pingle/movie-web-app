@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Movies List {% endblock %}
+{% block content %}
+<div class="row row-cols-4 gap-3 m-4 justify-content-center">
+    {% for movie in movies %}
+        <div class="card col" style="width: 18rem;">
+            <img style="height: 15rem" src="{{ movie.poster }}" class="card-img-top" alt="{{ movie.name }} poster" />
+            <div class="card-body">
+                <h5 class="card-title">{{ movie.name }}</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Year: {{ movie.year }}</li>
+                <li class="list-group-item">Rating: {{ movie.rating }}</li>
+                <li class="list-group-item">Director: {{ movie.director }}</li>
+            </ul>
+            <div class="card-body p-2">
+                <a href="{{ url_for('movies.update_movie', user_id=current_user.id, movie_id=movie.id) }}" class="btn btn-sm btn-info me-1">Update</a>
+                <a href="{{ url_for('movies.delete_movie', user_id=current_user.id, movie_id=movie.id) }}" class="btn btn-sm btn-danger">Delete</a>
+            </div>
+        </div>
+    {% endfor %}
+
+</div>
+{% endblock %}
