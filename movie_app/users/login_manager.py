@@ -1,21 +1,17 @@
-from flask_login import UserMixin, login_user
+from flask_login import login_user
 
-from movie_app import login_manager, data_manager, bcrypt
-
-
-class User(UserMixin):
-    def __init__(self, email):
-        self.id = email
+from movie_app import login_manager, bcrypt
+from movie_app.datamanager.models import User
 
 
 @login_manager.user_loader
-def load_user(email: str):
+def load_user(user_id: int):
     """
      Callback that is used to reload the user object from the user ID
      stored in the session
-     :param email: used as the user's id
+     :param user_id: user identifier
      """
-    return User(email)
+    return User.query.get(user_id)
 
 
 def authenticate_user(form_email: str, form_password: str,
@@ -27,8 +23,8 @@ def authenticate_user(form_email: str, form_password: str,
     :param remember: "remember me" field value
     :return: True if the user is authenticated, False otherwise
     """
-    user = data_manager.get_user_by_email(form_email)
-    if user and bcrypt.check_password_hash(user['password'], form_password):
-        login_user(User(form_email), remember=remember)
+    user = User.query.filter_by(email=form_email).first()
+    if user and bcrypt.check_password_hash(user.password, form_password):
+        login_user(user, remember=remember)
         return True
     return False

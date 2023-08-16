@@ -32,17 +32,16 @@ def login():
     return render_template('login.html', form=form)
 
 
-@users.route('/login/<user_id>')
+@users.route('/login/<int:user_id>')
 def specific_login(user_id):
     """
     Render a login page with prefilled email address of a requested user
-    :param user_id: identifier (email) of the requested user
     """
     if current_user.is_authenticated:
         flash('Logout if you want to switch user', 'warning')
         return redirect(url_for('users.list_users'))
     form = LoginForm()
-    form.email.data = user_id
+    form.email.data = data_manager.get_user_email(user_id)
     return render_template('login.html', form=form)
 
 

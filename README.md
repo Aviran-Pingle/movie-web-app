@@ -5,6 +5,7 @@ A CRUD app for saving your favourite movies
 ## Technologies Used
 
 - Flask 2.3
+- Flask-SQLAlchemy
 - Bootstrap 5.3
 - Flask-WTF
 - Flask-Login
