@@ -39,6 +39,7 @@ class Movie(db.Model):
         rating (float): Movie's rating.
         poster (str): URL to the movie's poster.
         user_id (int): Foreign key referencing the associated User.
+        review (Relationship): One-to-one relationship with Review object.
     """
     __tablename__ = 'movies'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -49,3 +50,21 @@ class Movie(db.Model):
     poster = db.Column(db.String(200))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'),
                         nullable=False)
+    review = db.relationship('Review', backref='movie', uselist=False,
+                             lazy=True)
+
+
+class Review(db.Model):
+    """
+    Model class representing a movie review.
+
+    Attributes:
+        id (int): Unique identifier for the movie.
+        movie_id (int): Foreign key referencing the associated Movie.
+        text (str): The content of the review.
+        """
+    __tablename__ = 'reviews'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    movie_id = db.Column(db.Integer, db.ForeignKey('movies.id'),
+                         unique=True, nullable=False)
+    text = db.Column(db.Text, nullable=False)
