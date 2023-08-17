@@ -13,9 +13,40 @@
                 <li class="list-group-item">Rating: {{ movie.rating }}</li>
                 <li class="list-group-item">Director: {{ movie.director }}</li>
             </ul>
-            <div class="card-body p-2">
-                <a href="{{ url_for('movies.update_movie', user_id=current_user.id, movie_id=movie.id) }}" class="btn btn-sm btn-info me-1">Update</a>
-                <a href="{{ url_for('movies.delete_movie', user_id=current_user.id, movie_id=movie.id) }}" class="btn btn-sm btn-danger">Delete</a>
+            <div class="card-body p-2 d-flex justify-content-between">
+                <div>
+                    <a href="{{ url_for('movies.update_movie', user_id=current_user.id, movie_id=movie.id) }}" class="btn btn-sm btn-info me-1">Update</a>
+                    <a href="{{ url_for('movies.delete_movie', user_id=current_user.id, movie_id=movie.id) }}" class="btn btn-sm btn-danger">Delete</a>
+                </div>
+                <div>
+                    {% if movie.review %}
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#review{{ movie.id }}">
+                          Watch Review
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="review{{ movie.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h1 class="modal-title fs-5">My Review - {{ movie.name }}</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                  {{ movie.review.text }}
+                              </div>
+                              <div class="modal-footer">
+                                <a href="{{ url_for('movies.delete_review', user_id=current_user.id, review_id=movie.review.id) }}" class="btn btn-sm btn-danger">Delete</a>
+                                <a href="{{ url_for('movies.add_review', user_id=current_user.id, movie_id=movie.id) }}" class="btn btn-sm btn-primary">Edit</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    {% else %}
+                        <a href="{{ url_for('movies.add_review', user_id=current_user.id, movie_id=movie.id) }}" class="btn btn-sm btn-secondary">Add Review</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     {% endfor %}

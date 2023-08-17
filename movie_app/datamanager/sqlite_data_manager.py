@@ -1,4 +1,4 @@
-from movie_app.datamanager.models import User, Movie
+from movie_app.datamanager.models import User, Movie, Review
 from movie_app.datamanager.data_manager_interface import DataManagerInterface
 from movie_app.movies.forms import UpdateMovieForm
 
@@ -84,3 +84,32 @@ class SQLiteDataManager(DataManagerInterface):
         :return: the email address of the user.
         """
         return User.query.get(user_id).email
+
+    def add_review(self, text, movie_id):
+        """
+        Add a new review for a movie.
+        :param text: content of the review.
+        :param movie_id: ID of the movie for which the review is being added.
+        """
+        self.db.session.add(Review(text=text, movie_id=movie_id))
+        self.db.session.commit()
+
+    def update_review(self, review_id, text):
+        """
+        Update the content of an existing review.
+        :param review_id: the ID of the review to be updated.
+        :param text: the new content for the review.
+        """
+        review = Review.query.get(review_id)
+        if review.text != text:
+            review.text = text
+            self.db.session.commit()
+
+    def delete_review(self, review_id):
+        """
+         Delete a review.
+        :param review_id: the ID of the review to be deleted.
+        """
+        review = Review.query.get(review_id)
+        self.db.session.delete(review)
+        self.db.session.commit()
