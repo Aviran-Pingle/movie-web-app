@@ -32,12 +32,13 @@ def is_exist(new_movie: dict) -> bool:
     return False
 
 
-def create_movie_obj(movie_res: dict):
+def create_movie_obj(movie_res: dict, user_id: int):
     """
     Create a movie object from the api response
+    :param user_id: the user's identifier
     :param movie_res: movie data received from the api
     :return: dictionary representing a movie
     """
     return Movie(name=movie_res['Title'], director=movie_res['Director'],
                  year=movie_res['Year'], rating=movie_res['imdbRating'],
-                 poster=movie_res['Poster'], user_id=current_user.id)
+                 poster=movie_res['Poster'], user_id=user_id)

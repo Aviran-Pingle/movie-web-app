@@ -39,7 +39,7 @@ def add_movie(user_id):
         if error:
             flash(f'{error}', 'danger')
         else:
-            movie_obj = movie_utils.create_movie_obj(movie)
+            movie_obj = movie_utils.create_movie_obj(movie, user_id)
             data_manager.add_movie(movie_obj)
             return redirect(url_for('movies.list_movies',
                                     user_id=current_user.id))

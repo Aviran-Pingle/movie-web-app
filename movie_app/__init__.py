@@ -31,9 +31,11 @@ def create_app():
     from movie_app.users.views import users
     from movie_app.movies.views import movies
     from movie_app.errors.handlers import errors
+    from movie_app.api.endpoints import api
 
     app.register_blueprint(users)
     app.register_blueprint(movies)
     app.register_blueprint(errors)
+    app.register_blueprint(api, url_prefix='/api')
 
     return app
