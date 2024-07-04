@@ -81,7 +81,17 @@ def delete_movie(user_id, movie_id):
     """
     if user_id != current_user.id:
         abort(403)
+
+    movie = data_manager.find_movie_by_id(movie_id)
+    if movie.user_id != current_user.id:
+        abort(403)
+
+    review_id = movie.review.id if movie.review else None
+    if review_id:
+        data_manager.delete_review(review_id)
+
     data_manager.delete_movie(movie_id)
+
     return redirect(url_for('movies.list_movies', user_id=current_user.id))
 
 
